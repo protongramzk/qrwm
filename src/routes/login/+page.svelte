@@ -1,7 +1,6 @@
 <script>
   import { goto } from '$app/navigation';
   import { signIn, signUp } from '$lib/auth';
-  import { CheckCircle, AlertCircle } from 'lucide-svelte';
 
   let tab = 'login'; // 'login' | 'register'
   let email = '';
@@ -63,20 +62,20 @@
       {/if}
 
       <div>
-        <label class="form-label" for="email">Email</label>
-        <input id="email" class="form-input" type="email" bind:value={email} placeholder="kamu@email.com" required />
+        <label class="form-label">Email</label>
+        <input class="form-input" type="email" bind:value={email} placeholder="kamu@email.com" required />
       </div>
 
       <div>
-        <label class="form-label" for="password">Password</label>
-        <input id="password" class="form-input" type="password" bind:value={password} placeholder="••••••••" required />
+        <label class="form-label">Password</label>
+        <input class="form-input" type="password" bind:value={password} placeholder="••••••••" required />
       </div>
 
       {#if error}
-        <div class="alert error"><AlertCircle size={16} style="vertical-align: middle; margin-right: 4px;" /> {error}</div>
+        <div class="alert error">⚠️ {error}</div>
       {/if}
       {#if success}
-        <div class="alert success"><CheckCircle size={16} style="vertical-align: middle; margin-right: 4px;" /> {success}</div>
+        <div class="alert success">✅ {success}</div>
       {/if}
 
       <button type="submit" class="submit" disabled={loading}>

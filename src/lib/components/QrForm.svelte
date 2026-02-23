@@ -1,6 +1,5 @@
 <script>
   import { createEventDispatcher } from 'svelte';
-  import { Rocket, Save, Palette, Link, Pencil, Globe, CheckCircle, ImagePlus, Folder } from 'lucide-svelte';
   import Qr from './Qr.svelte';
 
   export let mode = 'new';       // 'new' | 'edit'
@@ -79,11 +78,9 @@
     <div class="preview-url">{qrContent}</div>
   </div>
     <div class="section">
-      <button type="button" class="section-toggle" on:click={() => openQr = !openQr} aria-expanded={openQr}>
-        <span style="display: flex; align-items: center; gap: 8px;">
-          <Palette size={18} strokeWidth={2} /> Kustomisasi QR
-        </span>
-        <span class="chevron" class:open={openQr} aria-hidden="true">▼</span>
+      <button type="button" class="section-toggle" on:click={() => openQr = !openQr}>
+        <span>🎨 Kustomisasi QR</span>
+        <span class="chevron" class:open={openQr}>▼</span>
       </button>
       {#if openQr}
         <div class="section-body">
@@ -91,25 +88,25 @@
           <!-- Colors -->
           <div class="color-grid">
             <div>
-              <label class="form-label" for="qrColor">Warna Titik</label>
+              <label class="form-label">Warna Titik</label>
               <div class="color-row">
-                <input id="qrColor" type="color" bind:value={qrColor} class="color-pick" />
-                <input class="form-input" type="text" bind:value={qrColor} style="font-family: monospace; font-size: 0.85rem;" aria-label="Hex warna titik" />
+                <input type="color" bind:value={qrColor} class="color-pick" />
+                <input class="form-input" type="text" bind:value={qrColor} style="font-family: monospace; font-size: 0.85rem;" />
               </div>
             </div>
             <div>
-              <label class="form-label" for="qrBg">Warna Latar</label>
+              <label class="form-label">Warna Latar</label>
               <div class="color-row">
-                <input id="qrBg" type="color" bind:value={qrBg} class="color-pick" />
-                <input class="form-input" type="text" bind:value={qrBg} style="font-family: monospace; font-size: 0.85rem;" aria-label="Hex warna latar" />
+                <input type="color" bind:value={qrBg} class="color-pick" />
+                <input class="form-input" type="text" bind:value={qrBg} style="font-family: monospace; font-size: 0.85rem;" />
               </div>
             </div>
           </div>
 
           <!-- Dot type -->
           <div>
-            <div class="form-label" id="dot-type-label">Tipe Titik</div>
-            <div class="dot-types" role="group" aria-labelledby="dot-type-label">
+            <label class="form-label">Tipe Titik</label>
+            <div class="dot-types">
               {#each DOT_TYPES as t}
                 <button
                   type="button"
@@ -124,35 +121,21 @@
 
           <!-- Logo -->
           <div>
-            <div class="form-label" id="logo-mode-label">Logo di Tengah QR</div>
-            <div class="mode-tabs" role="group" aria-labelledby="logo-mode-label">
-              <button type="button" class="mode-btn" class:active={logoMode === 'url'} style="--accent: {qrColor}" on:click={() => logoMode = 'url'} aria-pressed={logoMode === 'url'}>
-                <Link size={14} style="vertical-align: middle; margin-right: 4px;" /> URL
-              </button>
-              <button type="button" class="mode-btn" class:active={logoMode === 'upload'} style="--accent: {qrColor}" on:click={() => logoMode = 'upload'} aria-pressed={logoMode === 'upload'}>
-                <Folder size={14} style="vertical-align: middle; margin-right: 4px;" /> Upload
-              </button>
+            <label class="form-label">Logo di Tengah QR</label>
+            <div class="mode-tabs">
+              <button type="button" class="mode-btn" class:active={logoMode === 'url'} style="--accent: {qrColor}" on:click={() => logoMode = 'url'}>🔗 URL</button>
+              <button type="button" class="mode-btn" class:active={logoMode === 'upload'} style="--accent: {qrColor}" on:click={() => logoMode = 'upload'}>📁 Upload</button>
             </div>
 
             {#if logoMode === 'url'}
               <div class="url-row">
-                <input id="logoUrl" class="form-input" type="text" bind:value={logoInput} placeholder="https://example.com/logo.png" aria-label="URL Logo" />
+                <input class="form-input" type="text" bind:value={logoInput} placeholder="https://example.com/logo.png" />
                 <button type="button" class="apply-btn" style="--accent: {qrColor}" on:click={applyLogoUrl}>Terapkan</button>
               </div>
             {:else}
-              <div
-                class="upload-zone"
-                on:click={() => fileInput.click()}
-                on:keydown={(e) => (e.key === 'Enter' || e.key === ' ') && (e.preventDefault(), fileInput.click())}
-                role="button"
-                tabindex="0"
-              >
-                {#if logo && logoMode === 'upload'}
-                  <CheckCircle size={20} color="#4ade80" style="vertical-align: middle; margin-right: 6px;" /> File berhasil diunggah
-                {:else}
-                  <ImagePlus size={20} style="vertical-align: middle; margin-right: 6px;" /> Klik untuk pilih gambar (maks. 200KB)
-                {/if}
-                <input bind:this={fileInput} type="file" id="logoUpload" accept="image/*" on:change={handleFileUpload} style="display: none;" />
+              <div class="upload-zone" on:click={() => fileInput.click()} on:keypress={() => fileInput.click()} role="button" tabindex="0">
+                {logo && logoMode === 'upload' ? '✅ File berhasil diunggah' : '📂 Klik untuk pilih gambar (maks. 200KB)'}
+                <input bind:this={fileInput} type="file" accept="image/*" on:change={handleFileUpload} style="display: none;" />
               </div>
             {/if}
 
@@ -176,9 +159,7 @@
     <!-- Slug -->
     <div class="section">
       <button type="button" class="section-toggle" on:click={() => openSlug = !openSlug}>
-        <span style="display: flex; align-items: center; gap: 8px;">
-          <Link size={18} strokeWidth={2} /> URL Slug
-        </span>
+        <span>🔗 URL Slug</span>
         <span class="chevron" class:open={openSlug}>▼</span>
       </button>
       {#if openSlug}
@@ -206,23 +187,21 @@
     <!-- Bio & Konten -->
     <div class="section">
       <button type="button" class="section-toggle" on:click={() => openBio = !openBio}>
-        <span style="display: flex; align-items: center; gap: 8px;">
-          <Pencil size={18} strokeWidth={2} /> Bio & Konten
-        </span>
+        <span>✍️ Bio & Konten</span>
         <span class="chevron" class:open={openBio}>▼</span>
       </button>
       {#if openBio}
         <div class="section-body">
           <div>
-            <label class="form-label" for="description">Deskripsi Singkat</label>
-            <input id="description" class="form-input" type="text" bind:value={description} placeholder="Satu kalimat tentang kamu..." />
+            <label class="form-label">Deskripsi Singkat</label>
+            <input class="form-input" type="text" bind:value={description} placeholder="Satu kalimat tentang kamu..." />
           </div>
           <div>
             <div class="label-row">
-              <label class="form-label" for="articles">Catatan / Artikel</label>
-              <span class="counter" class:warn={articles.length > 1900} aria-live="polite">{articles.length}/2000</span>
+              <label class="form-label">Catatan / Artikel</label>
+              <span class="counter" class:warn={articles.length > 1900}>{articles.length}/2000</span>
             </div>
-            <textarea id="articles" class="form-input" bind:value={articles} maxlength="2000" rows="4" placeholder="Tulis sesuatu..."></textarea>
+            <textarea class="form-input" bind:value={articles} maxlength="2000" rows="4" placeholder="Tulis sesuatu..."></textarea>
           </div>
         </div>
       {/if}
@@ -231,9 +210,7 @@
     <!-- Social Media -->
     <div class="section">
       <button type="button" class="section-toggle" on:click={() => openSocial = !openSocial}>
-        <span style="display: flex; align-items: center; gap: 8px;">
-          <Globe size={18} strokeWidth={2} /> Social Media
-        </span>
+        <span>🌐 Social Media</span>
         <span class="chevron" class:open={openSocial}>▼</span>
       </button>
       {#if openSocial}
@@ -258,13 +235,7 @@
 
     <!-- Submit -->
     <button type="submit" class="submit-btn" disabled={loading}>
-      {#if loading}
-        Menyimpan...
-      {:else if mode === 'new'}
-        <Rocket size={18} strokeWidth={2.5} style="vertical-align: middle; margin-right: 6px;" /> Buat QR Sekarang
-      {:else}
-        <Save size={18} strokeWidth={2.5} style="vertical-align: middle; margin-right: 6px;" /> Simpan Perubahan
-      {/if}
+      {loading ? 'Menyimpan...' : mode === 'new' ? '🚀 Buat QR Sekarang' : '💾 Simpan Perubahan'}
     </button>
 
   </form>
