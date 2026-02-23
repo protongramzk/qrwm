@@ -3,6 +3,7 @@
   import { goto } from '$app/navigation';
   import { user } from '$lib/auth';
   import { supabase } from '$lib/supabase';
+  import { Plus, Rocket, Inbox } from 'lucide-svelte';
 
   let qrs = [];
   let loadingQrs = false;
@@ -34,7 +35,11 @@
     </p>
 
     <button class="cta" on:click={() => goto($user ? '/new' : '/login')}>
-      {$user ? '➕ Buat QR Baru' : '🚀 Mulai Gratis'}
+      {#if $user}
+        <Plus size={18} strokeWidth={2.5} style="margin-right: 4px; vertical-align: middle;" /> Buat QR Baru
+      {:else}
+        <Rocket size={18} strokeWidth={2.5} style="margin-right: 4px; vertical-align: middle;" /> Mulai Gratis
+      {/if}
     </button>
   </section>
 
@@ -47,7 +52,9 @@
         <p class="muted">Memuat...</p>
       {:else if qrs.length === 0}
         <div class="empty">
-          <div class="empty-icon">📭</div>
+          <div class="empty-icon">
+            <Inbox size={40} strokeWidth={1.5} color="#475569" />
+          </div>
           <p>Belum ada QR. Yuk buat yang pertama!</p>
         </div>
       {:else}

@@ -3,6 +3,7 @@
   import { goto } from '$app/navigation';
   import { user } from '$lib/auth';
   import { supabase } from '$lib/supabase';
+  import { Plus, CheckCircle, XCircle } from 'lucide-svelte';
   import ImpAds from '$lib/components/ImpAds.svelte';
 
   const ADMIN_USERNAMES = ['gunturhidayat', 'admin'];
@@ -49,9 +50,9 @@
     if (!error) {
       ads = [data, ...ads];
       form = { image_url: '', href: '', size: 'md', is_active: true };
-      msg = '✅ Iklan ditambahkan!';
+      msg = 'OK: Iklan ditambahkan!';
     } else {
-      msg = '❌ ' + error.message;
+      msg = 'ERR: ' + error.message;
     }
     saving = false;
     setTimeout(() => msg = '', 3000);
@@ -88,7 +89,9 @@
 
     <!-- Add new ad -->
     <div class="card">
-      <h2>➕ Tambah Iklan Baru</h2>
+      <h2 style="display: flex; align-items: center; gap: 8px;">
+        <Plus size={18} /> Tambah Iklan Baru
+      </h2>
       <form on:submit|preventDefault={handleAddAd}>
         <div>
           <label class="form-label">URL Gambar</label>
@@ -128,8 +131,13 @@
         </button>
 
         {#if msg}
-          <div class:msg-ok={msg.startsWith('✅')} class:msg-err={!msg.startsWith('✅')} class="msg">
-            {msg}
+          <div class:msg-ok={msg.startsWith('OK:')} class:msg-err={msg.startsWith('ERR:')} class="msg">
+            {#if msg.startsWith('OK:')}
+              <CheckCircle size={14} style="vertical-align: middle; margin-right: 4px;" />
+            {:else if msg.startsWith('ERR:')}
+              <XCircle size={14} style="vertical-align: middle; margin-right: 4px;" />
+            {/if}
+            {msg.replace('OK: ', '').replace('ERR: ', '')}
           </div>
         {/if}
       </form>

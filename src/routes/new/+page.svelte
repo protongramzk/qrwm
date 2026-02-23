@@ -2,6 +2,7 @@
   import { goto } from '$app/navigation';
   import { user } from '$lib/auth';
   import { supabase } from '$lib/supabase';
+  import { ArrowLeft, AlertCircle } from 'lucide-svelte';
   import QrForm from '$lib/components/QrForm.svelte';
 
   let loading = false;
@@ -48,13 +49,13 @@
 
 <div class="page-container" style="padding: 40px 24px 80px; max-width: 900px; margin: 0 auto;">
   <div class="header">
-    <button class="btn-ghost" on:click={() => goto('/')}>← Kembali</button>
+    <button class="btn-ghost" on:click={() => goto('/')}><ArrowLeft size={16} style="vertical-align: middle; margin-right: 4px;" /> Kembali</button>
     <h1>Buat QR Baru</h1>
     <p>Isi info kamu, lalu klik simpan.</p>
   </div>
 
   {#if error}
-    <div class="alert-error">⚠️ {error}</div>
+    <div class="alert-error"><AlertCircle size={16} style="vertical-align: middle; margin-right: 4px;" /> {error}</div>
   {/if}
 
   <QrForm mode="new" {loading} on:submit={handleSubmit} />

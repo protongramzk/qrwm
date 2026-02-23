@@ -8,6 +8,7 @@
   import Qr from '$lib/components/Qr.svelte';
   import ImpAds from '$lib/components/ImpAds.svelte';
   import Avatar from '$lib/components/Avatar.svelte';
+  import { Search, ArrowLeft, Pencil } from 'lucide-svelte';
 
   const slug = $page.params.slug;
 
@@ -58,10 +59,12 @@
 
 {:else if notFound}
   <div class="not-found">
-    <div class="not-found-icon">🔍</div>
+    <div class="not-found-icon">
+      <Search size={64} color="#475569" strokeWidth={1.5} />
+    </div>
     <h2>Profil tidak ditemukan</h2>
     <p>Slug /qr/{slug} belum ada.</p>
-    <button class="btn-ghost" on:click={() => goto('/')}>← Kembali</button>
+    <button class="btn-ghost" on:click={() => goto('/')}><ArrowLeft size={16} style="vertical-align: middle; margin-right: 4px;" /> Kembali</button>
   </div>
 
 {:else}
@@ -114,7 +117,7 @@
     <!-- Floating edit button (owner only) -->
     {#if isOwner}
       <button class="fab" on:click={() => goto(`/edit/${slug}`)}>
-        ✏️ Edit Profil
+        <Pencil size={18} /> Edit Profil
       </button>
     {/if}
   </div>

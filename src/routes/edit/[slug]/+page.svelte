@@ -4,6 +4,7 @@
   import { page } from '$app/stores';
   import { user } from '$lib/auth';
   import { supabase } from '$lib/supabase';
+  import { ArrowLeft, AlertCircle } from 'lucide-svelte';
   import QrForm from '$lib/components/QrForm.svelte';
 
   const slug = $page.params.slug;
@@ -64,13 +65,13 @@
 {:else}
   <div class="page-container" style="padding: 40px 24px 80px; max-width: 900px; margin: 0 auto;">
     <div class="header">
-      <button class="btn-ghost" on:click={() => goto(`/qr/${slug}`)}>← Kembali ke Profil</button>
+      <button class="btn-ghost" on:click={() => goto(`/qr/${slug}`)}><ArrowLeft size={16} style="vertical-align: middle; margin-right: 4px;" /> Kembali ke Profil</button>
       <h1>Edit QR</h1>
       <p>qrwm.app/qr/<strong>{slug}</strong></p>
     </div>
 
     {#if error}
-      <div class="alert-error">⚠️ {error}</div>
+      <div class="alert-error"><AlertCircle size={16} style="vertical-align: middle; margin-right: 4px;" /> {error}</div>
     {/if}
 
     <QrForm

@@ -1,5 +1,6 @@
 <script>
   import { createEventDispatcher } from 'svelte';
+  import { Rocket, Save, Palette, Link, Pencil, Globe, CheckCircle, ImagePlus, Folder } from 'lucide-svelte';
   import Qr from './Qr.svelte';
 
   export let mode = 'new';       // 'new' | 'edit'
@@ -79,7 +80,9 @@
   </div>
     <div class="section">
       <button type="button" class="section-toggle" on:click={() => openQr = !openQr} aria-expanded={openQr}>
-        <span>🎨 Kustomisasi QR</span>
+        <span style="display: flex; align-items: center; gap: 8px;">
+          <Palette size={18} strokeWidth={2} /> Kustomisasi QR
+        </span>
         <span class="chevron" class:open={openQr} aria-hidden="true">▼</span>
       </button>
       {#if openQr}
@@ -123,8 +126,12 @@
           <div>
             <div class="form-label" id="logo-mode-label">Logo di Tengah QR</div>
             <div class="mode-tabs" role="group" aria-labelledby="logo-mode-label">
-              <button type="button" class="mode-btn" class:active={logoMode === 'url'} style="--accent: {qrColor}" on:click={() => logoMode = 'url'} aria-pressed={logoMode === 'url'}>🔗 URL</button>
-              <button type="button" class="mode-btn" class:active={logoMode === 'upload'} style="--accent: {qrColor}" on:click={() => logoMode = 'upload'} aria-pressed={logoMode === 'upload'}>📁 Upload</button>
+              <button type="button" class="mode-btn" class:active={logoMode === 'url'} style="--accent: {qrColor}" on:click={() => logoMode = 'url'} aria-pressed={logoMode === 'url'}>
+                <Link size={14} style="vertical-align: middle; margin-right: 4px;" /> URL
+              </button>
+              <button type="button" class="mode-btn" class:active={logoMode === 'upload'} style="--accent: {qrColor}" on:click={() => logoMode = 'upload'} aria-pressed={logoMode === 'upload'}>
+                <Folder size={14} style="vertical-align: middle; margin-right: 4px;" /> Upload
+              </button>
             </div>
 
             {#if logoMode === 'url'}
@@ -140,7 +147,11 @@
                 role="button"
                 tabindex="0"
               >
-                {logo && logoMode === 'upload' ? '✅ File berhasil diunggah' : '📂 Klik untuk pilih gambar (maks. 200KB)'}
+                {#if logo && logoMode === 'upload'}
+                  <CheckCircle size={20} color="#4ade80" style="vertical-align: middle; margin-right: 6px;" /> File berhasil diunggah
+                {:else}
+                  <ImagePlus size={20} style="vertical-align: middle; margin-right: 6px;" /> Klik untuk pilih gambar (maks. 200KB)
+                {/if}
                 <input bind:this={fileInput} type="file" id="logoUpload" accept="image/*" on:change={handleFileUpload} style="display: none;" />
               </div>
             {/if}
@@ -165,7 +176,9 @@
     <!-- Slug -->
     <div class="section">
       <button type="button" class="section-toggle" on:click={() => openSlug = !openSlug}>
-        <span>🔗 URL Slug</span>
+        <span style="display: flex; align-items: center; gap: 8px;">
+          <Link size={18} strokeWidth={2} /> URL Slug
+        </span>
         <span class="chevron" class:open={openSlug}>▼</span>
       </button>
       {#if openSlug}
@@ -193,7 +206,9 @@
     <!-- Bio & Konten -->
     <div class="section">
       <button type="button" class="section-toggle" on:click={() => openBio = !openBio}>
-        <span>✍️ Bio & Konten</span>
+        <span style="display: flex; align-items: center; gap: 8px;">
+          <Pencil size={18} strokeWidth={2} /> Bio & Konten
+        </span>
         <span class="chevron" class:open={openBio}>▼</span>
       </button>
       {#if openBio}
@@ -216,7 +231,9 @@
     <!-- Social Media -->
     <div class="section">
       <button type="button" class="section-toggle" on:click={() => openSocial = !openSocial}>
-        <span>🌐 Social Media</span>
+        <span style="display: flex; align-items: center; gap: 8px;">
+          <Globe size={18} strokeWidth={2} /> Social Media
+        </span>
         <span class="chevron" class:open={openSocial}>▼</span>
       </button>
       {#if openSocial}
@@ -241,7 +258,13 @@
 
     <!-- Submit -->
     <button type="submit" class="submit-btn" disabled={loading}>
-      {loading ? 'Menyimpan...' : mode === 'new' ? '🚀 Buat QR Sekarang' : '💾 Simpan Perubahan'}
+      {#if loading}
+        Menyimpan...
+      {:else if mode === 'new'}
+        <Rocket size={18} strokeWidth={2.5} style="vertical-align: middle; margin-right: 6px;" /> Buat QR Sekarang
+      {:else}
+        <Save size={18} strokeWidth={2.5} style="vertical-align: middle; margin-right: 6px;" /> Simpan Perubahan
+      {/if}
     </button>
 
   </form>
