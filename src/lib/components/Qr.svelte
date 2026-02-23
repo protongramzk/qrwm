@@ -39,4 +39,4 @@
   bind:this={ref}
   style="display: inline-block; border-radius: 16px; overflow: hidden;
          box-shadow: 0 8px 32px rgba(0,0,0,0.3); line-height: 0;"
-></div>
+/>

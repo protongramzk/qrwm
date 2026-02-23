@@ -15,11 +15,8 @@
 </script>
 
 <svelte:head>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link
-    rel="stylesheet"
-    href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@400;500&display=swap"
-  />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource-variable/geist/index.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource-variable/geist-mono/index.css" />
 </svelte:head>
 
 <!-- Navbar -->
@@ -55,9 +52,22 @@
   :global(body) {
     background: #090b11;
     color: #cbd5e1;
-    font-family: 'DM Mono', monospace;
+    font-family: 'Geist Variable', sans-serif;
     min-height: 100vh;
   }
+
+  /* Typography Overrides */
+  :global(h1, h2, h3, .brand, .cta, .btn-primary, .btn-new, .submit-btn, .fab, .submit) {
+    font-family: 'Geist Variable', sans-serif !important;
+  }
+  :global(.form-label, .form-input, .input-prefix, .btn-ghost, code, pre, .dot-btn, .mode-btn, .apply-btn, .counter) {
+    font-family: 'Geist Mono Variable', monospace !important;
+  }
+
+  :global(h1) { font-weight: 900 !important; }
+  :global(h2) { font-weight: 700 !important; }
+  :global(.brand) { font-weight: 800 !important; }
+  :global(.cta, .btn-primary, .submit-btn, .fab, .submit, .btn-new) { font-weight: 600 !important; }
 
   :global(body::before) {
     content: '';
