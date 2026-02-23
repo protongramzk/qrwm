@@ -62,13 +62,13 @@
       {/if}
 
       <div>
-        <label class="form-label">Email</label>
-        <input class="form-input" type="email" bind:value={email} placeholder="kamu@email.com" required />
+        <label class="form-label" for="email">Email</label>
+        <input id="email" class="form-input" type="email" bind:value={email} placeholder="kamu@email.com" required />
       </div>
 
       <div>
-        <label class="form-label">Password</label>
-        <input class="form-input" type="password" bind:value={password} placeholder="••••••••" required />
+        <label class="form-label" for="password">Password</label>
+        <input id="password" class="form-input" type="password" bind:value={password} placeholder="••••••••" required />
       </div>
 
       {#if error}
